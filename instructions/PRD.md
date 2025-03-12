@@ -258,7 +258,7 @@ This package list clearly defines what the developer needs to install and manage
 - Clear and concise feedback/messages displayed upon errors or successful actions (like successful data entry or profile updates).
 - Appropriate loading indicators for all async operations.
 
----
+----
 
 ### ✅ **8. Testing & Deployment**
 - Thoroughly tested and verified functionality before deployment:
@@ -318,6 +318,7 @@ Follow these structured steps for a clear development roadmap:
   2. Earnings
   3. Expenses
   4. Monthly Transactions
+  5. Profile
 - Set up routing clearly using React Router DOM.
 
 ---
@@ -373,45 +374,66 @@ This set of fixed categories provides a good balance between clarity and detail,
 - Allow user selection of specific months (dropdown or date picker).
 - Fetch all transactions (earnings + expenses) for the selected month.
 - Display transactions clearly: **earnings in green** and **expenses in red**.
-- Integrate and display a pie chart for monthly expenses categorized clearly.
+
+
+## Step 8: Graphs within the Monthly Transactions Page:
+- These graphs should come below the transactions table.
+- Integrate and display a pie chart for monthly expenses categorized clearly on the left half of the page.(same as the one in dashboard)
+- Next to the pie chart,on the right half of the screen, create a clear and intuitive grouped bar chart visualization. The chart should consist of distinct columns, each representing one week of the selected month:
+
+Column 1: Days 1-7
+Column has two bars: Earnings and Expenses (which are added on these dates of the particular month)
+Column label: Week 1
+Earnings bar color: Green
+Expenses bar color: Red
+
+Similarly,
+
+Column 2: Week 2 (Days 8–14)
+Column 3: Week 3 (Days 15–21)
+Column 4: Week 4 (Days 22–28)
+Column 5: Week 5 (Days 29–end of month; if the dates exist in the month)
+All earnings bars in green and all expenses bars in red. Each week's earnings and expenses should be placed clearly side by side within each week's column.
+
+Include clear axis labels (INR on the y-axis and Weeks on the x-axis) and legends clearly identifying Earnings and Expenses.
 
 ---
 
-## 👤 Step 8: User Profile Management
-- Create a dedicated page for user profile accessible via the top-right corner icon.
+## 👤 Step 9: User Profile Management
+- Create a dedicated page for user profile present in the sidebar itself
 - Allow users to **view** and **edit profile details** (username, full name, avatar image).
 - Implement profile avatar upload functionality using Supabase storage.
 
 ---
 
-## 📧 Step 9: Weekly Email Notifications (Backend Logic)
+## 📧 Step 10: Weekly Email Notifications (Backend Logic)
 - Set up Supabase Edge Function to automatically run every Monday.
 - Fetch the user's transaction data for the previous week.
 - Format transaction data clearly and integrate with SendGrid to send weekly email summaries.
 
 ---
 
-## ✨ Step 10: UI Enhancements & Animations
+## ✨ Step 11: UI Enhancements & Animations
 - Use Framer Motion to add interactive transitions and animations.
 - Ensure responsive and user-friendly design across pages (Dashboard, Forms, Sidebar navigation, and Charts).
 
 ---
 
-## ⚙️ Step 11: Deployment & Hosting
+## ⚙️ Step 12: Deployment & Hosting
 - Deploy the frontend application to **Vercel**.
 - Host backend (database and authentication) via Supabase.
 - Configure environment variables clearly on both frontend and backend deployment environments.
 
 ---
 
-## ✅ Step 12: Testing, Debugging & Optimization
+## ✅ Step 13: Testing, Debugging & Optimization
 - Conduct thorough frontend component testing (unit, integration, end-to-end testing).
 - Test database interactions, API calls, and email notification functionality rigorously.
 - Optimize data fetching queries, improve performance, and refine user experience.
 
 ---
 
-## 🚨 Step 13: Error Handling & User Feedback Implementation
+## 🚨 Step 14: Error Handling & User Feedback Implementation
 - Implement comprehensive error-handling strategies across the application.
 - Clearly communicate errors and validation issues to users with informative UI messages.
 - Handle network errors, authentication issues, and invalid data inputs gracefully.

@@ -7,8 +7,12 @@ import { Select } from '../components/ui/select';
 import { DatePicker } from '../components/ui/date-picker';
 import { Card } from '../components/ui/card';
 import { Table } from '../components/ui/table';
-import { getCurrentUser, getMonthlyTransactions } from '../utils/supabase';
-import { getCategoryLabel } from '../utils/categories';
+import { 
+  PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid
+} from 'recharts';
+import { getCurrentUser, getMonthlyTransactions, getExpenseCategorySummary } from '../utils/supabase';
+import { getCategoryLabel, getCategoryColor } from '../utils/categories';
 
 const MonthlyTransactions = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +23,8 @@ const MonthlyTransactions = () => {
   const [filterType, setFilterType] = useState('all');
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
+  const [expenseData, setExpenseData] = useState([]);
+  const [weeklyData, setWeeklyData] = useState([]);
 
   useEffect(() => {
     fetchTransactions();
@@ -74,11 +80,74 @@ const MonthlyTransactions = () => {
 
       setTotalIncome(income);
       setTotalExpense(expense);
+
+      // Fetch expense category data for pie chart
+      const year = startDate.getFullYear();
+      const month = startDate.getMonth() + 1;
+      const { data: categoryData, error: categoryError } = await getExpenseCategorySummary(
+        userData.user.id,
+        year,
+        month
+      );
+
+      if (categoryError) throw categoryError;
+
+      // Format data for the pie chart with proper category labels
+      const formattedCategoryData = categoryData.map(item => ({
+        ...item,
+        name: getCategoryLabel(item.name, 'expense')
+      }));
+
+      setExpenseData(formattedCategoryData || []);
+
+      // Generate weekly data for bar chart
+      const weeklyData = generateWeeklyData(sortedTransactions, startDate, endDate);
+      setWeeklyData(weeklyData);
     } catch (error) {
       console.error('Error fetching transactions:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Function to group transactions by week for the bar chart
+  const generateWeeklyData = (transactions, startDate, endDate) => {
+    // Initialize weekly data structure
+    const weeklyData = [
+      { name: 'Week 1', earnings: 0, expenses: 0, days: '1-7' },
+      { name: 'Week 2', earnings: 0, expenses: 0, days: '8-14' },
+      { name: 'Week 3', earnings: 0, expenses: 0, days: '15-21' },
+      { name: 'Week 4', earnings: 0, expenses: 0, days: '22-28' },
+      { name: 'Week 5', earnings: 0, expenses: 0, days: '29+' }
+    ];
+
+    // Group transactions by week
+    transactions.forEach(transaction => {
+      const transactionDate = new Date(transaction.date);
+      const dayOfMonth = transactionDate.getDate();
+      const amount = Number(transaction.amount);
+      
+      let weekIndex;
+      if (dayOfMonth <= 7) {
+        weekIndex = 0; // Week 1
+      } else if (dayOfMonth <= 14) {
+        weekIndex = 1; // Week 2
+      } else if (dayOfMonth <= 21) {
+        weekIndex = 2; // Week 3
+      } else if (dayOfMonth <= 28) {
+        weekIndex = 3; // Week 4
+      } else {
+        weekIndex = 4; // Week 5
+      }
+      
+      if (transaction.type === 'earning') {
+        weeklyData[weekIndex].earnings += amount;
+      } else {
+        weeklyData[weekIndex].expenses += amount;
+      }
+    });
+
+    return weeklyData;
   };
 
   const applyFilters = () => {
@@ -138,7 +207,7 @@ const MonthlyTransactions = () => {
               placeholder="Search transactions..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1"
+              className="w-full min-w-[250px]"
             />
             
             <Select
@@ -239,6 +308,91 @@ const MonthlyTransactions = () => {
               ))}
             </tbody>
           </Table>
+        </div>
+      )}
+
+      {/* Charts Section */}
+      {!loading && (
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Monthly Expenses Pie Chart */}
+          <Card className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Monthly Expenses</h2>
+            
+            {expenseData.length === 0 ? (
+              <div className="text-center py-10 bg-gray-50 rounded-lg">
+                <p className="text-gray-500 mb-2">No expense data for the selected month</p>
+                <p className="text-sm text-gray-400">Add expenses to see your spending breakdown</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={expenseData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name.split(' ')[0]} ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {expenseData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={getCategoryColor(index)} 
+                      />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip 
+                    formatter={(value) => formatCurrency(value)} 
+                    labelFormatter={(name) => name}
+                  />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
+          </Card>
+          
+          {/* Weekly Earnings vs Expenses Bar Chart */}
+          <Card className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Weekly Breakdown</h2>
+            
+            {weeklyData.length === 0 ? (
+              <div className="text-center py-10 bg-gray-50 rounded-lg">
+                <p className="text-gray-500 mb-2">No transaction data for the selected month</p>
+                <p className="text-sm text-gray-400">Add transactions to see your weekly breakdown</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart
+                  data={weeklyData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    label={{ value: 'Weeks', position: 'insideBottom', offset: -5 }} 
+                  />
+                  <YAxis 
+                    label={{ value: 'INR', angle: -90, position: 'insideLeft' }} 
+                    tickFormatter={(value) => value === 0 ? '0' : `${(value / 1000).toFixed(0)}K`}
+                  />
+                  <RechartsTooltip 
+                    formatter={(value) => formatCurrency(value)}
+                    labelFormatter={(name, payload) => `${name} (Days ${payload[0]?.payload.days})`}
+                  />
+                  <Legend />
+                  <Bar dataKey="earnings" name="Earnings" fill="#4ade80" />
+                  <Bar dataKey="expenses" name="Expenses" fill="#f87171" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </Card>
         </div>
       )}
     </motion.div>

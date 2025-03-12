@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip } from 'recharts';
-import { getRecentTransactions, getExpenseCategorySummary, getCurrentUser } from '../utils/supabase';
+import { getRecentTransactions, getExpenseCategorySummary, getCurrentUser, getMonthlyTransactions } from '../utils/supabase';
 import { getCategoryLabel, getCategoryColor } from '../utils/categories';
 import { Card } from '../components/ui/card';
 
@@ -32,19 +32,36 @@ const Dashboard = () => {
         const currentMonth = now.getMonth() + 1;
         const currentYear = now.getFullYear();
         
-        // Fetch recent transactions
+        // Calculate start and end dates for the current month
+        const startDate = new Date(currentYear, currentMonth - 1, 1);
+        const endDate = new Date(currentYear, currentMonth, 0);
+        
+        // Format dates for query
+        const startDateStr = startDate.toISOString().split('T')[0];
+        const endDateStr = endDate.toISOString().split('T')[0];
+        
+        // Fetch monthly transactions for the current month
+        const { data: monthlyTransactions, error: monthlyError } = await getMonthlyTransactions(
+          userId,
+          startDateStr,
+          endDateStr
+        );
+        
+        if (monthlyError) throw monthlyError;
+        
+        // Fetch recent transactions for the transactions list (still showing recent 5)
         const { data: transactions, error: transactionsError } = await getRecentTransactions(userId, 5);
         
         if (transactionsError) throw transactionsError;
         
         setRecentTransactions(transactions || []);
         
-        // Calculate totals
-        const expenses = transactions.filter(t => t.type === 'expense');
-        const earnings = transactions.filter(t => t.type === 'earning');
+        // Calculate monthly totals
+        const monthlyExpenses = monthlyTransactions.filter(t => t.type === 'expense');
+        const monthlyEarnings = monthlyTransactions.filter(t => t.type === 'earning');
         
-        setTotalExpenses(expenses.reduce((sum, t) => sum + Number(t.amount), 0));
-        setTotalEarnings(earnings.reduce((sum, t) => sum + Number(t.amount), 0));
+        setTotalExpenses(monthlyExpenses.reduce((sum, t) => sum + Number(t.amount), 0));
+        setTotalEarnings(monthlyEarnings.reduce((sum, t) => sum + Number(t.amount), 0));
         
         // Fetch expense category data for pie chart
         const { data: categoryData, error: categoryError } = await getExpenseCategorySummary(
@@ -113,17 +130,17 @@ const Dashboard = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         <Card className="bg-white p-6 shadow-md rounded-xl">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Recent Earnings</h3>
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Current Monthly Earnings</h3>
           <p className="text-2xl font-bold text-green-600">{formatCurrency(totalEarnings)}</p>
         </Card>
         
         <Card className="bg-white p-6 shadow-md rounded-xl">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Recent Expenses</h3>
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Current Monthly Expenses</h3>
           <p className="text-2xl font-bold text-red-600">{formatCurrency(totalExpenses)}</p>
         </Card>
         
         <Card className="bg-white p-6 shadow-md rounded-xl">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Balance</h3>
+          <h3 className="text-sm font-medium text-gray-500 mb-1">Current Monthly Balance</h3>
           <p className={`text-2xl font-bold ${totalEarnings - totalExpenses >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             {formatCurrency(totalEarnings - totalExpenses)}
           </p>
@@ -178,7 +195,7 @@ const Dashboard = () => {
         
         {/* Monthly Expenses Pie Chart */}
         <Card className="bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Monthly Expenses</h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Current Monthly Expenses</h2>
           
           {expenseData.length === 0 ? (
             <div className="text-center py-10 bg-gray-50 rounded-lg">
