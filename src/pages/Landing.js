@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronRight, DollarSign, PieChart, Calendar, Bell, TrendingUp, TrendingDown } from 'lucide-react';
+import { FaRupeeSign } from 'react-icons/fa';
 import { Button } from '../components/ui/button';
 
 const Landing = () => {
@@ -16,7 +17,7 @@ const Landing = () => {
               animate={{ rotate: 0, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <DollarSign size={32} className="text-primary-600" />
+              <FaRupeeSign size={32} className="text-primary-600" />
             </motion.div>
             <span className="ml-2 text-2xl font-bold text-primary-800">Money Track</span>
           </div>
@@ -43,7 +44,7 @@ const Landing = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
-              Manage Your Finances with Ease
+              Manage Your Finances 
             </h1>
             <p className="text-lg text-gray-600 mb-8">
               Track your earnings and expenses, visualize your spending habits, and take control of your financial future.
@@ -77,7 +78,7 @@ const Landing = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center">
                       <div className="bg-primary-100 p-2 rounded-full">
-                        <DollarSign size={16} className="text-primary-600" />
+                        <FaRupeeSign size={16} className="text-primary-600" />
                       </div>
                       <div className="ml-3">
                         <p className="text-sm font-medium text-gray-700">Monthly Overview</p>
@@ -139,7 +140,7 @@ const Landing = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="bg-primary-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <DollarSign size={24} className="text-primary-600" />
+                <FaRupeeSign size={24} className="text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Track Finances</h3>
               <p className="text-gray-600">
@@ -185,10 +186,10 @@ const Landing = () => {
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to take control of your finances?</h2>
           <p className="max-w-2xl mx-auto mb-8 text-primary-100">
-            Join thousands of users who are already managing their money effectively with Money Track.
+              Begin your journey towards financial clarity and money management today with Money Track.
           </p>
           <Link to="/register">
-            <Button variant="default" size="lg" className="bg-white text-primary-700 hover:bg-gray-100">
+            <Button variant="default" size="lg" className="bg-white text-black hover:bg-gray-100">
               Sign Up Now
             </Button>
           </Link>
@@ -200,11 +201,18 @@ const Landing = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-4 md:mb-0">
-              <DollarSign size={24} className="text-primary-400" />
+              <FaRupeeSign size={24} className="text-primary-400" />
               <span className="ml-2 text-xl font-bold">Money Track</span>
             </div>
             <div className="text-gray-400 text-sm">
-              &copy; {new Date().getFullYear()} Money Track. All rights reserved.
+              <a 
+                href="https://www.linkedin.com/in/chirag-c-s/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary-400 transition-colors"
+              >
+                Developed by Chirag C S
+              </a>
             </div>
           </div>
         </div>
