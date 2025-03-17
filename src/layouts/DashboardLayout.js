@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { signOut } from '../utils/supabase';
+import { FaRupeeSign } from 'react-icons/fa';
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -59,7 +60,7 @@ const DashboardLayout = () => {
               animate={{ rotate: 0, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <DollarSign size={28} className="text-primary-600" />
+              <FaRupeeSign size={28} className="text-primary-600" />
             </motion.div>
             <span className="ml-2 text-xl font-bold text-primary-800">Money Track</span>
           </Link>
@@ -82,7 +83,7 @@ const DashboardLayout = () => {
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <DollarSign size={28} className="text-primary-600" />
+                <FaRupeeSign size={28} className="text-primary-600" />
               </motion.div>
               <span className="ml-2 text-xl font-bold text-primary-800">Money Track</span>
             </Link>
