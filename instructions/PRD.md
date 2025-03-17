@@ -55,8 +55,6 @@ The **Money Track** is a full-stack web application that allows users to manage 
 
 **Backend:**
 - Auth & Database: **Supabase (PostgreSQL, Auth, Storage, Realtime DB)**
-- Serverless logic: **Supabase Edge Functions**
-- Email: **SendGrid (integrated with Supabase Edge Functions)**
 - Database Interaction: **Supabase JavaScript Client**
 
 **Deployment:**

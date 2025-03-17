@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { DollarSign } from 'lucide-react';
+import { FaRupeeSign } from 'react-icons/fa';
 
 const AuthLayout = () => {
   return (
@@ -15,7 +16,7 @@ const AuthLayout = () => {
               animate={{ rotate: 0, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <DollarSign size={28} className="text-primary-600" />
+              <FaRupeeSign size={28} className="text-primary-600" />
             </motion.div>
             <span className="ml-2 text-xl font-bold text-primary-800">Money Track</span>
           </Link>

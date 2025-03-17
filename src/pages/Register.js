@@ -7,6 +7,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { signUp } from '../utils/supabase';
+import { FaRupeeSign } from 'react-icons/fa';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const Register = () => {
           transition={{ duration: 0.5 }}
           className="bg-primary-100 p-3 rounded-full"
         >
-          <DollarSign size={32} className="text-primary-600" />
+          <FaRupeeSign size={32} className="text-primary-600" />
         </motion.div>
       </div>
       

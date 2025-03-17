@@ -189,7 +189,7 @@ const Landing = () => {
               Begin your journey towards financial clarity and money management today with Money Track.
           </p>
           <Link to="/register">
-            <Button variant="default" size="lg" className="bg-white text-black hover:bg-gray-100">
+          <Button variant="default" size="lg" className="bg-white text-black hover:bg-gray-100">
               Sign Up Now
             </Button>
           </Link>
