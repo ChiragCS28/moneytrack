@@ -8,7 +8,7 @@ Money Track allows users to:
 - Track earnings and expenses
 - Visualize spending habits through charts
 - Review monthly transactions
-- Receive weekly email summaries of financial activities
+
 
 ## Tech Stack
 
@@ -22,7 +22,7 @@ Money Track allows users to:
 ### Backend
 - **Auth & Database**: Supabase (PostgreSQL, Auth, Storage)
 - **Serverless Logic**: Supabase Edge Functions
-- **Email**: SendGrid (integrated with Supabase Edge Functions)
+  
 
 ## Project Structure
 
@@ -62,10 +62,6 @@ moneytrack/
 - Use shadcn UI components when possible
 - Follow the blue and white theme throughout the application
 
-### State Management
-
-- Use React hooks for state management
-- Use context API for global state when necessary
 
 ## Getting Started
 
@@ -89,12 +85,6 @@ moneytrack/
    - `earnings`
 3. Configure Row Level Security (RLS) policies
 4. Set up authentication
-
-### SendGrid Setup
-
-1. Create a SendGrid account
-2. Set up an API key
-3. Configure email templates
 
 ## Deployment
 
