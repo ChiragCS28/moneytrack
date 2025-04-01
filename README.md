@@ -90,3 +90,34 @@ moneytrack/
 
 - Frontend: Deploy to Vercel
 - Backend: Hosted on Supabase
+
+
+# Project Screenshots
+
+## Landing Page
+![Landing Page](images/landingpage.png)
+
+## Dashboard
+![Dashboard](images/dashboard.png)
+
+## Profile Page
+![Profile Page](images/profile.png)
+
+## Sign Up Page
+![Sign Up Page](images/signup.png)
+
+## Expense Page
+![Expense Page](images/expensepage.png)
+
+## Earnings Page
+![Earnings Page](images/earningspage.png)
+
+## Monthly Transactions
+![Monthly Transactions](images/monthlytransactions.png)
+
+## MT Page
+![MT Page](images/mtpage.png)
+
+## Expense List
+![Expense List](images/expenselist.png)
+
