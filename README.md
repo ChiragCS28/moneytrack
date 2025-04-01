@@ -20,26 +20,7 @@ Money Track allows users to:
 - **Data Visualization**: Recharts
 
 ### Backend
-- **Auth & Database**: Supabase (PostgreSQL, Auth, Storage)
-- **Serverless Logic**: Supabase Edge Functions
-  
-
-## Project Structure
-
-```
-moneytrack/
-├── public/                 # Static files
-├── src/                    # Source code
-│   ├── assets/             # Images, fonts, etc.
-│   ├── components/         # Reusable components
-│   │   └── ui/             # UI components (shadcn)
-│   ├── layouts/            # Layout components
-│   ├── pages/              # Page components
-│   └── utils/              # Utility functions
-├── package.json            # Dependencies
-├── tailwind.config.js      # Tailwind configuration
-└── README.md               # Project documentation
-```
+- **Auth & Database**: Supabase (PostgreSQL, Auth, Storage)  
 
 ## Project Conventions
 
