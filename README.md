@@ -97,17 +97,17 @@ moneytrack/
 ## Landing Page
 ![Landing Page](images/landingpage.png)
 
-## Dashboard
-![Dashboard](images/dashboard.png)
-
-## Profile Page
-![Profile Page](images/profile.png)
-
 ## Sign Up Page
 ![Sign Up Page](images/signup.png)
 
+## Dashboard
+![Dashboard](images/dashboard.png)
+
 ## Expense Page
 ![Expense Page](images/expensepage.png)
+
+## Expense List
+![Expense List](images/expenselist.png)
 
 ## Earnings Page
 ![Earnings Page](images/earningspage.png)
@@ -115,9 +115,9 @@ moneytrack/
 ## Monthly Transactions
 ![Monthly Transactions](images/monthlytransactions.png)
 
-## MT Page
+## Monthly Transactions Graphs
 ![MT Page](images/mtpage.png)
 
-## Expense List
-![Expense List](images/expenselist.png)
+## Profile Page
+![Profile Page](images/profile.png)
 
