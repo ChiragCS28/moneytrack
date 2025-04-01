@@ -1,6 +1,6 @@
 # Money Track
 
-A full-stack web application for managing and visualizing personal finances.
+The Money Track is a full-stack web application that allows users to manage and visualize their financial activities clearly and effectively. Users initially encounter a landing page for authentication (sign-in/sign-up). Once logged in, users see a dashboard presenting recent transactions and expense distribution charts. Users can add earnings and expenses independently, review transactions monthly and visualize spending habits through dynamic charts.
 
 ## Project Overview
 
